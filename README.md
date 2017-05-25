@@ -113,5 +113,4 @@ mysql -u root -ptaxi taxi < /var/www/taxifares/taxifares/data/taxi_routines.sql
 
 For more detailed information on how to deploy a flask application on an ubuntu vps, visit:
 https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps
- 
 
