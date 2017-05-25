@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Taxi Fares</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Style for Bootstrap -->
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/buttons.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.css" rel="stylesheet"/>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/css/bootstrap.css" rel="stylesheet"/>
+
+    <!-- Style for DataTables -->
+    <link href="{{ url_for('static', filename='css/jquery.dataTables.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/font-awesome.min.css') }}" rel="stylesheet">
+
+    <!-- TaxiFares Icon -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/taxi.ico') }}">
+
+    <!-- JQuery -->
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.6/proj4.js"></script> -->
+
+    <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/alasql/0.3/alasql.min.js"></script> -->
+
+
+<header>
+
+
+    <div class = "container">
+
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">
+                <img style="max-width:220px; margin-top: -30px;" src="{{ url_for('static', filename='images/taxi-logo.png') }}"></a>
+        </div>
+
+        <ul class="nav navbar-nav navbar-left">
+            <li><a href="/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home</a></li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#"><span class="glyphicon glyphicon-education" aria-hidden="true"></span> About Us</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> Help</a></li>
+        </ul>
+    </div>
+    <div class = "container"><br/><hr></div>
+
+</header>
+
+</head>
+
+<body class="body">
+
+   <div class="container">
+
+        <div class="col-sm-12 nopadding">
+            <ul class="nav nav-pills">
+                <form class="navbar-form navbar-left">
+                    <a href="/fares/0/" id="newcode">
+                        <button type="button" class="btn btn-primary" aria-label="Left Align">
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Enter New Fare</button></a>
+                </form>
+                <form class="navbar-form navbar-left">
+                <!-- Search client autocomplete -->
+                    <div class="form-group">
+                        <input id="ident_client" type="hidden" value=""/>
+                        <input id="serch_client" type="search" class="form-control input-md autocomplete"
+                            name="search" placeholder="Search by Account No, Name or Phone"
+                            style="width: 360px;" tabindex="7" data-pure-clear-button>
+                    </div>
+                </form>
+            </ul>
+
+            <hr>
+
+            <table id="comms" class="display" width="100%" cellspacing="0">
+                <thead>
+
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="media">
+                                <div class="media-left">
+                                    <img src="{{ url_for('static', filename='images/clients/client0.png') }}"
+                                         class="img-circle" alt="User" width="100" height="100">
+                                </div>
+                                <div class="media-body text-primary">
+                                    <h4 id="account" class="media-heading">Client Information</h4>
+                                    <h2 id="passenger" class="media-heading"></h2>
+                                    <h4 id="phone" class="media-heading"></h4>
+                                    <h4 id="pick_address" class="media-heading"></h4>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="classpad">
+
+                <table id="fares" class="display" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Fare No.</th>
+                            <th>Passenger Name</th>
+                            <th>Phone No.</th>
+                            <th>Pick Up Address</th>
+                            <th>Date/Time</th>
+                            <th>Delays</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+        </div>
+
+   </div>
+
+</body>
+
+<!--JQuery for Bootstrap-->
+<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.js"></script>
+
+<!--JQuery for DataTables-->
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/dataTables.bootstrap.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/dataTables.buttons.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/buttons.bootstrap.min.js') }}"></script>
+
+<!--JQuery for Clear Input Text-->
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.bootstrap-pureClearButton.min.js') }}"></script>
+
+<script type="text/javascript">
+<!-- *********************************************************************************** -->
+<!-- ************** JQUERY FUNCTIONS FOR CLIENTS AND FARES ***************************** -->
+<!-- *********************************************************************************** -->
+
+    <!-- Populate Autocomplete -->
+    $(document).ready(function() {
+
+        <!-- Main Submit Player Process -->
+        var availableTags = [
+        {% for c in client %}
+            { label:"{{c[1] |safe}}", value: "{{c[0] |safe}}" } {% if not loop.last %} , {% endif %}
+        {% endfor %}
+        ];
+
+        $(".autocomplete").autocomplete({
+            //min chars
+            minLength: 3,
+            //source: availableTags,
+            source: function(request, response) {
+                var results = $.ui.autocomplete.filter(availableTags, request.term);
+                response(results.slice(0, 10));
+            },
+
+            select: function(e, ui) {
+
+                e.preventDefault() // <--- Prevent the value from being inserted.
+                $("#ident_client").val(ui.item.value);
+                $(this).val(ui.item.label);
+
+                var selClient = $("#ident_client").val();
+
+                //get client info
+                getClientData(selClient);
+
+            }
+        });
+    });
+
+    function getClientData(clientcode) {
+	    var mydata = [];
+        $.getJSON('/background_client', { clientcode: clientcode,}, function(data) {
+            var dclient = data.client;
+            var dfares = data.fare;
+            var fullname = dclient[0][2] + ' ' + dclient[0][3];
+            $("#account").html('<h4 id="account" class="media-heading">Account No. <b>' + dclient[0][1] + '</b></h4>');
+            $("#passenger").html('<h2 id="account" class="media-heading">' + fullname + '</h2>');
+            $("#phone").html('<h3 id="account" class="media-heading">' + dclient[0][4] + '</h3>');
+            $("#pick_address").html('<h4 id="account" class="media-heading">' + dclient[0][7] + '</h4>');
+
+            $("#newcode").attr("href", "/fares/" + dclient[0][0] + "/");
+
+            //load datatable
+            var dataTable = $('#fares').DataTable();
+            dataTable.clear();
+            dataTable.rows.add(data.fare).draw();
+
+            return data;
+
+        }).success(function() {
+            return(dclient); });
+    };
+
+    <!--Clear search player input box-->
+    $(document).ready(function(){
+	    $.pureClearButton.setDefault({
+		 //icon: 'glyphicon-plus'
+	    });
+	    $("[data-event]").on("click", function(e){
+	        alert("The paragraph was clicked.");
+		    $("#test").pureClearButton(this.id);
+	    });
+    });
+
+    <!--Show DataTables Fares-->
+    $(document).ready(function() {
+        $('#fares').DataTable( {
+            language: { emptyTable: 'No fares available' },
+            responsive: true,
+            "lengthChange": false,
+            "ordering": false,
+            "bFilter": false
+
+        });
+    });
+
+</script>
+
+</html>

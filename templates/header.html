@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Taxi Fares</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Style for Bootstrap -->
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/buttons.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.css" rel="stylesheet"/>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/css/bootstrap.css" rel="stylesheet"/>
+
+    <!-- Style for DataTables -->
+    <link href="{{ url_for('static', filename='css/jquery.dataTables.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/font-awesome.min.css') }}" rel="stylesheet">
+
+    <!-- TaxiFares Icon -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/taxi.ico') }}">
+
+    <!-- JQuery -->
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.6/proj4.js"></script> -->
+
+    <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/alasql/0.3/alasql.min.js"></script> -->
+
+
+<header>
+
+
+    <div class = "container">
+
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">
+                <img style="max-width:220px; margin-top: -30px;" src="{{ url_for('static', filename='images/taxi-logo.png') }}"></a>
+        </div>
+
+        <ul class="nav navbar-nav navbar-left">
+            <li><a href="/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home</a></li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#"><span class="glyphicon glyphicon-education" aria-hidden="true"></span> About Us</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> Help</a></li>
+        </ul>
+    </div>
+    <div class = "container"><br/><hr></div>
+
+</header>
+
+</head>
+
+<body>
+    <div class="container" style="min-heigth: 100%">
+
+        {% with messages = get_flashed_messages() %}
+	        {% if messages %}
+	            {% for message in messages %}
+		        <div class="alert alert-info alert-dismissible" role="alert" style="margin-bottom: 0px;">
+		        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span></button>
+			        {{message}}
+		        </div>
+		        {% endfor %}
+	        {% endif %}
+	    {% endwith %}
+
+        {% block body %} {% endblock %}
+
+    </div>
+
+    <!--JQuery for Bootstrap-->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.js"></script>
+
+    <!--JQuery for DataTables-->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/dataTables.bootstrap.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/dataTables.buttons.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/buttons.bootstrap.min.js') }}"></script>
+
+    <!--JQuery for Clear Input Text-->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.bootstrap-pureClearButton.min.js') }}"></script>
+
+    <script type="text/javascript">
+
+
+
+
+        //    var table = $('#cats').DataTable();
+        //    $('#cats tbody').on( 'click', 'tr', function () {
+        //        if ( $(this).hasClass('selected') ) {
+        //            $(this).removeClass('selected');
+        //        } else {//$(document).ready(function() {
+        //            table.$('tr.selected').removeClass('selected');
+        //            $(this).addClass('selected');
+        //        }
+        //    });
+        //});
+
+        //$(document).ready(function() {
+        //    $('ul.nav.nav-pills li a').click(function() {
+        //        $(this).parent().addClass('active').siblings().removeClass('active');
+        //    });
+        //});
+
+    </script>
+
+</body>
+
+</html>
+</html>

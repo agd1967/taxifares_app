@@ -1,0 +1,157 @@
+{% extends "header.html" %}
+{% block body %}
+
+<body class="body">
+
+   <div class="container">
+
+        <div class="col-sm-12 nopadding">
+            <ul class="nav nav-pills">
+                <form class="navbar-form navbar-left">
+                    <a href="/"><button type="button" class="btn btn-primary" aria-label="Left Align">
+		                <span class="glyphicon glyphicon-backward" aria-hidden="true"></span> Return</button></a>
+                </form>
+            </ul>
+
+            <hr>
+            <form action="" class="form-group row" method=post>
+                <dl>
+
+                    <div class="form-group row" style="margin-bottom: 10px;">
+                        <label for="account" class="col-sm-2 col-form-label">Account No:</label>
+                        <div class="col-sm-6">
+                            <input pattern=".{5,5}" required type="text" class="form-control" placeholder="Account No [9-999]"
+                                   id="account" name="account" value="{{ client[0][1] if client else request.form.account }}">
+                        </div>
+				    </div>
+
+                    <div class="form-group row" style="margin-bottom: 10px;">
+                        <label for="first_name" class="col-sm-2 col-form-label">Passenger First Name:</label>
+                        <div class="col-sm-6">
+                            <input pattern=".{3,45}" required type="text" class="form-control" placeholder="Passenger First Name"
+                                   id="first_name" name="first_name" value="{{ client[0][2] if client else request.form.first_name }}">
+                        </div>
+				    </div>
+
+                    <div class="form-group row" style="margin-bottom: 10px;">
+                        <label for="last_name" class="col-sm-2 col-form-label">Passenger Last Name:</label>
+                        <div class="col-sm-6">
+                            <input pattern=".{3,45}" required type="text" class="form-control" placeholder="Passenger Last Name"
+                                   id="last_name" name="last_name" value="{{ client[0][3] if client else request.form.last_name }}">
+                        </div>
+				    </div>
+
+                    <div class="form-group row" style="margin-bottom: 10px;">
+                        <label for="phone" class="col-sm-2 col-form-label">Phone No:</label>
+                        <div class="col-sm-6">
+                            <input pattern=".{10,12}" required type="text" class="form-control" placeholder="Phone No [999-999-9999]"
+                                   id="phone" name="phone" value="{{ client[0][4] if client else request.form.phone }}">
+                        </div>
+				    </div>
+
+                    <div class="form-group row" style="margin-bottom: 10px;">
+                        <label for="pick_address" class="col-sm-2 col-form-label">Pickup Address:</label>
+                        <div class="col-sm-6">
+                            <input pattern=".{10,85}" required type="text" class="form-control" placeholder="Pickup Address"
+                                   id="pick_address" name="pick_address" value="{{ client[0][7] if client else request.form.pick_address }}">
+					    </div>
+				    </div>
+
+                    <div class="form-group row" style="margin-bottom: 10px;">
+                        <label for="pick_time" class="col-sm-2 col-form-label">Pickup Date/Time:</label>
+                        <div class="col-sm-6">
+                            <input required type="date" class="form-control" placeholder="Date"
+                                   id="pick_date" name="pick_date" value="{{date_now('%Y-%m-%d')}}">
+					        <input required type="time" class="form-control" placeholder="Time"
+                                   id="pick_time" name="pick_time" value="{{date_now('%H:%M')}}">
+                        </div>
+				    </div>
+
+                    <div class="form-group row" style="margin-bottom: 10px;">
+                        <label for="drop_address" class="col-sm-2 col-form-label">Dropoff Address:</label>
+                        <div class="col-sm-6">
+                            <input pattern=".{0,85}" type="text" class="form-control" placeholder="Dropoff Address"
+                                   id="drop_address" name="drop_address" value="{{ client[0][8] if client else request.form.drop_address }}">
+					    </div>
+				    </div>
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-6" style="padding-left: 5px;">
+                         <input class="btn btn-primary" aria-label="Left Align" type=submit value="Dispatch">
+
+                    </div>
+
+			    </dl>
+		    </form>
+
+            {% if error %}
+			    <p class="error"><strong>Error:</strong>{{error}}</p>
+		    {% endif %}
+
+            <div class="classpad">
+
+                <table id="fares" class="display" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Fare No.</th>
+                            <th>Passenger Name</th>
+                            <th>Phone No.</th>
+                            <th>Pick Up Address</th>
+                            <th>Date/Time</th>
+                            <th>Delays</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for f in fares %}
+                        <tr>
+                            <td>{{f[0]}}</td>
+                            <td>{{f[1]}}</td>
+                            <td>{{f[2]}}</td>
+                            <td>{{f[3]}}</td>
+                            <td>{{f[4]}}</td>
+                            <td>{{f[5]}}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+        </div>
+
+   </div>
+
+</body>
+
+<!--JQuery for Bootstrap-->
+<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.js"></script>
+
+<!--JQuery for DataTables-->
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/dataTables.bootstrap.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/dataTables.buttons.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/buttons.bootstrap.min.js') }}"></script>
+
+<!--JQuery for Clear Input Text-->
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.bootstrap-pureClearButton.min.js') }}"></script>
+
+<script type="text/javascript">
+<!-- ************************************************************************************* -->
+<!-- ************** JQUERY FUNCTIONS FOR FARES ******************************************* -->
+<!-- ************************************************************************************* -->
+
+    <!--Show DataTables Fares-->
+    $(document).ready(function() {
+        $('#fares').DataTable( {
+            language: { emptyTable: 'No fares available' },
+            responsive: true,
+            "lengthChange": false,
+            "ordering": false,
+            "bFilter": false
+        });
+    });
+
+</script>
+
+{% endblock %}

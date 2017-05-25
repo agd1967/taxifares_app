@@ -1,0 +1,29 @@
+{% extends "header.html" %}
+
+{% block body %}
+
+<body class="body">
+
+	<br/><hr>
+	<br/><br/>
+	<div class="container" align="left">
+		<br><img src="/static/images/taxi-404.png">
+	</div>
+
+	<div class="container" align="left">
+    	<h2>405</h2>
+    	<h4>This request methode is not allowed for this page.</h4>
+		<p>Feel free to contact TaxiFares[at]gmail.com for help!</p>
+		<p><a class="btn btn-primary btn-lg" onclick="goBack()" role="button">Return!</a></p>
+	</div>
+
+</body>
+
+<script>
+	function goBack() {
+		window.history.back()
+	}
+</script>
+<script type="text/javascript" src="/static/js/run_prettify.js"></script>
+
+{% endblock %}
