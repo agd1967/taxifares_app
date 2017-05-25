@@ -106,8 +106,11 @@ service apache2 restart
 •	Import the taxifares MySql database:
 
 mysql -u root -ptaxi taxi < /var/www/taxifares/taxifares/data/taxi_client.sql
+
 mysql -u root -ptaxi taxi < /var/www/taxifares/taxifares/data/taxi_fares.sql
+
 mysql -u root -ptaxi taxi < /var/www/taxifares/taxifares/data/taxi_routines.sql
+
 
 
 
